@@ -97,8 +97,8 @@ $$
 |(x, y)| = length_{(x, y)} = \sqrt{x^2 + y^2}
 $$
 #### Normalization
-Normalizing a Vector divides it by its length, in effect mapping it to the range $${(0, 0)} \le {(x, y)} \le {(1, 1)} 
-$$$$||(x, y)|| = normalize_{(x, y)}= \frac {(x,y)}{|(x, y)|} = \frac {(x, y)}{\sqrt{(x^2+y^2)}}$$
+Normalizing a Vector divides it by its length, in effect mapping it to the range $${(-1, -1)} \le {(x, y)} \le {(1, 1)} $$
+$$||(x, y)|| = normalize_{(x, y)}= \frac {(x,y)}{|(x, y)|} = \frac {(x, y)}{\sqrt{(x^2+y^2)}}$$
 #### Sphere Intersection
 If the distance between points a and b is less than or equal to the radius of the sphere originating at point a, then point b intersects. 
 ```c++

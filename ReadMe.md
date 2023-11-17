@@ -112,7 +112,16 @@ bool Intersects(Vector2 center, float radius, Vector2 point){
 ```
 
 ## Tests
-All tests are run on the following dataset, found within TestData.csv
+Tests are run through [Google Test](https://github.com/google/googletest), and built as a seperate project.
+
+To build tests, Set the CMake Option `BUILD_TESTS=ON`
+```
+cmake .. -DBUILD_TESTS=ON
+make    #Build the project as normal
+./tests/Tests
+```
+
+All tests are run using the following dataset, found within TestData.csv
 
 | X | Y | Number | Direction |
 |-|-|-|-|

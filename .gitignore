@@ -1,0 +1,14 @@
+# Ignore build files
+.vs/
+[Bb][Uu][Ii][Ll][Dd]/
+
+*.sln
+
+*.o
+*.exe
+
+# Vim Swapfiles
+*.swp
+*.swo
+
+

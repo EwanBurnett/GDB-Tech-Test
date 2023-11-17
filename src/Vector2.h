@@ -7,6 +7,11 @@ namespace Helpers{
     struct Vector2{
         float x, y;
         
+
+        Vector2 operator - (const Vector2& rhs){
+            return {x - rhs.x, y - rhs.y};
+        }
+
         static float Dot(const Vector2& a, const Vector2& b);
         static float Length(const Vector2& vec);
         static Vector2 Normalize(const Vector2& vec);

@@ -7,7 +7,7 @@ if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-add_executable(${PROJECT_NAME} src/main.cpp src/Vector2.h src/MathsHelper.h)
+add_executable(${PROJECT_NAME} src/main.cpp src/Vector2.h src/Solver.h)
 
 
 

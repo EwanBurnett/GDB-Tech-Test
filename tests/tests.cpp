@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <cmath>
 #include "../src/Vector2.h"
+#include "../src/Solver.h"
 
 TEST(Vector2, Length){
     //Length of (0, 0) == 0

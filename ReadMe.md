@@ -107,22 +107,16 @@ list<int> VisiblePoints(Entity e, float FoV, float distance){
 ### Mathematical Definitions
 #### 2D Dot Product 
 The Dot Product gives the angle between two vectors, in Radians. 
-$$
-dot_{(a, b)} = (a_x * b_x) + (a_y * b_y) = |a||b|\cos(\theta) 
-$$
+$$dot_{(a, b)} = (a_x * b_x) + (a_y * b_y) = |a||b|\cos(\theta) $$
 
 #### 2D Vector Length
 The 2D Length of a Vector is identical to Pythagoras' Theorem. 
-$$
-|(x, y)| = length_{(x, y)} = \sqrt{x^2 + y^2}
-$$
+$$|(x, y)| = length_{(x, y)} = \sqrt{x^2 + y^2}$$
 
 #### Normalization
 Normalizing a Vector divides it by its length, in effect mapping it to the range $ {(0, 0)} \le {(x, y)} \le {(1, 1)} $
 
-$$
-||(x, y)|| = normalize_{(x, y)}= \frac {(x,y)}{|(x, y)|} = \frac {(x, y)}{\sqrt{(x^2+y^2)}}
-$$
+$$||(x, y)|| = normalize_{(x, y)}= \frac {(x,y)}{|(x, y)|} = \frac {(x, y)}{\sqrt{(x^2+y^2)}}$$
 
 #### Sphere Intersection
 If the distance between points a and b is less than or equal to the radius of the sphere originating at point a, then point b intersects. 
@@ -139,18 +133,14 @@ bool Intersects(Vector2 center, float radius, Vector2 point){
 ### 2D Vector Rotation
 2D Rotation is defined as an anticlockwise Rotation in the Z axis, using the 2x2 Z Rotation Matrix where $\theta$ is the angle to rotate. 
 (note: This matrix is in Row major format.)
-$$
-RotZ(\theta) =
+$$RotZ(\theta) =
 \begin{bmatrix}
 	cos(\theta), sin(\theta) \\
 	-sin(\theta), cos(\theta)  
- \end{bmatrix}
-$$
+ \end{bmatrix}$$
 Multiplying a vector with this matrix using matrix multiplication yields
-$$
-v = (x, y) \\
-v \cdot RotZ(\theta) = (x cos(\theta) + y (-sin(\theta)), x sin(\theta), y cos(\theta))
-$$
+$$v = (x, y) \\
+v \cdot RotZ(\theta) = (x cos(\theta) + y (-sin(\theta)), x sin(\theta), y cos(\theta))$$
 
 ## Tests
 All tests are run on the following dataset, found within TestData.csv

@@ -22,6 +22,16 @@ namespace Helpers{
         EDirection direction; 
     };
 
+    const float PI = 3.14159265; 
+
+    float DegToRad(float degrees) {
+        return degrees * (PI / 180.0f); 
+    }
+
+    float RadToDeg(float radians) {
+        return radians * (180.0f / PI);
+    }
+
     /* Computes which entities are within the field of view of a given entity. 
      * entity - The entity we're viewing the scene from. 
      * pStart - pointer to the start of the range of entities to check. 
@@ -50,7 +60,7 @@ namespace Helpers{
             //Compare the angle between this entity and the other entity. 
             Vector2 toOther = Vector2::Normalize(pOther->position - entity.position);
             Vector2 direction = {};
-            switch(pOther->direction){
+            switch(entity.direction){
                 case EDirection::NORTH:
                     direction = {0.0f, 1.0f};
                     break;
@@ -69,38 +79,26 @@ namespace Helpers{
             }
 
             //Rotate the Forwards Vector by -FoV / 2 radians. 
-            const float halfFoVradians = FoVdegrees * 0.5f;//(FoVdegrees * 0.5f) * 3.1415926 / 180.0; 
+            const float FoVradians = DegToRad(FoVdegrees);
+            const float halfFoVradians = FoVradians / 2.0f;
             const Vector2 arcStart = {
-                direction.x * cosf(-halfFoVradians) + direction.y * (-sinf(-halfFoVradians)), 
-                direction.x * sinf(-halfFoVradians) + direction.y * cosf(-halfFoVradians)
+                direction.x * cosf(halfFoVradians) + direction.y * (-sinf(halfFoVradians)), 
+                direction.x * sinf(halfFoVradians) + direction.y * cosf(halfFoVradians)
             };
-            //The angle (radians) between the forwards vector and the other entity. 
+
+            //The angle (radians) between the start of the arc and the other entity. 
             float fDotOther = Vector2::Dot(arcStart, toOther);
 
 
+            if (Vector2::Dot(direction, toOther) < 0.0) {
+                continue;   //The other point is behind this one.
+            }
+
             //If the angle (in radians) between the forwards vector and the object is within bounds, then a collision has occurred. 
-            if(fDotOther > 0.0 && fDotOther <= FoVdegrees * (3.1415926 / 180.0)){
-            printf("arcStart = (%f, %f) [%fdeg]\nFdotOther = %.4frad (%.4fdeg)\tFoV = %.4frad (%.4f deg)\n ", fDotOther, arcStart.x, arcStart.y, atan(arcStart.y / arcStart.x), 180/3.1415926 * fDotOther, halfFoVradians, FoVdegrees / 2);
+            if(fDotOther > 0.0 && fDotOther <= FoVradians){
+                printf("FoV %.4fdeg (%.4frad)\nIntersection with Entity [%d] -> [%d]\n\tForwards Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc Start Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc -> [%d]: (%.4f, %.4f) {%.4fdeg} {%.4frad}\n", FoVdegrees, DegToRad(FoVdegrees), entity.ID, pOther->ID, direction.x, direction.y, 0.0f, 0.0f, arcStart.x, arcStart.y, 0.0f, 0.0f, pOther->ID, toOther.x, toOther.y, RadToDeg(fDotOther), fDotOther);
                 out.push_back(pOther->ID);
             }            
-
-
-            
-            /*
-            //The start and end angles of the Field of View``
-            float FoVRadians = (FoVdegrees) * 3.1415926 / 180.0;
-            
-            Vector2 FoVOffset = Vector2::Normalize({cos(FoVRadians), sin(FoVRadians)});
-            Vector2 FoVStart = Vector2::Normalize({direction.x - FoVOffset.x, direction.y - FoVOffset.y});
-            
-            printf("Offset: %f, %f (%f)\n", FoVStart.x, FoVStart.y, Vector2::Length(FoVStart));
-            float rangeStart = atan2(FoVStart.x, FoVStart.y);           
-            float rangeEnd = atan2(FoVOffset.x + direction.x, FoVOffset.y + direction.y);
-            printf("[%p] %f - %f\n", pOther, rangeStart, rangeEnd);
-
-
-            if(rangeStart < fDotOther && fDotOther < rangeEnd)
-            */
 
         }
 

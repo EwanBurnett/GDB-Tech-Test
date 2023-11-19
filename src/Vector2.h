@@ -15,6 +15,7 @@ namespace Helpers{
         static float Dot(const Vector2& a, const Vector2& b);
         static float Length(const Vector2& vec);
         static Vector2 Normalize(const Vector2& vec);
+        static Vector2 Rotate(const Vector2& vec, const float angle);
     };
 
     //Returns the Dot Product of two vectors. 
@@ -33,6 +34,13 @@ namespace Helpers{
         const float length = Vector2::Length(vec);
         return {vec.x / length, vec.y / length}; 
     } 
+
+    inline Vector2 Vector2::Rotate(const Vector2& vec, const float angle) {
+        return{
+                cosf(angle) * vec.x - sinf(angle) * vec.y, 
+                sinf(angle) * vec.x + cosf(angle) * vec.y
+            };
+    }
 
 
 }

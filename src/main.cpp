@@ -6,18 +6,24 @@
 using namespace Helpers;
 
 int main(){
-    printf("The Developer Academy Game Development Bootcamp Technical Challenge\nEwan Burnett - 2023\n");
+    try {
+        printf("The Developer Academy Game Development Bootcamp Technical Challenge\nEwan Burnett - 2023\n");
 
-    std::vector<Helpers::Entity> world(20);  //TODO: I/O
-    for(int i = 0; i < 20; i++){
-        world[i].ID = i; 
-        world[i].direction = Helpers::EDirection((i % 4) + 1);
-        world[i].position = {(i % 4) * 5.5f * (i - 5), (i - 10) * 1.0f};//{1.5f * i, -1.5f * (i % 3)};
+        std::vector<Helpers::Entity> world = Helpers::LoadEntityData("Data/TestData.csv");
+        printf("Testing %lu entites.\n", world.size());
+
+        Entity* pStart = &*world.begin(); 
+        Entity* pEnd = &*world.begin() + world.size(); 
+        float FoV = 60.0f; 
+        float distance = 10.0f;
+        Entity& viewer = world[0]; 
+        std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance); //TODO: Unit Tests
+
+        printf("Found %lu visible entities.\n", visible.size());
     }
-    printf("Testing %lu entites.\n", world.size());
-
-    std::vector<uint32_t> visible = VisibleEntities(world[12], &*world.begin(), &*world.begin() + 20, 90.0f, 5.0f);
-
-    printf("Found %lu visible entities.\n", visible.size());
+    catch (std::exception& e) {
+        fprintf(stderr, e.what());
+        assert(false); 
+    }
 }
 

@@ -63,8 +63,11 @@ TEST(Vector2, Normalize){
         Helpers::Vector2 v{100.0f, 200.0f};
         Helpers::Vector2 n = Helpers::Vector2::Normalize(v); 
 
+        float l = Helpers::Vector2::Length(n);
+
         ASSERT_FLOAT_EQ(n.x, 1.0f / sqrtf(5.0f));
         ASSERT_FLOAT_EQ(n.y, 2.0f / sqrt(5.0f));
+        ASSERT_FLOAT_EQ(l, 1.0f);
     }
 
     //Normalize zeroed out vector 
@@ -80,9 +83,12 @@ TEST(Vector2, Normalize){
         Helpers::Vector2 v{1.0f, 0.0f};
         Helpers::Vector2 n = Helpers::Vector2::Normalize(v); 
 
+        float l = Helpers::Vector2::Length(n);
+
         ASSERT_FLOAT_EQ(n.x, 1.0f);
         ASSERT_FLOAT_EQ(n.y, 0.0f);
-
+        ASSERT_FLOAT_EQ(l, 1.0f);
+        
     }
 }
 

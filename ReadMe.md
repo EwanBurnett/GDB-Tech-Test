@@ -133,11 +133,12 @@ bool Intersects(Vector2 center, float radius, Vector2 point){
 ### 2D Vector Rotation
 2D Rotation is defined as an anticlockwise Rotation in the Z axis, using the 2x2 Z Rotation Matrix where $\theta$ is the angle to rotate. 
 (note: This matrix is in Row major format.)
-$$RotZ(\theta) =
-\begin{bmatrix}
+
+$$RotZ(\theta) =\begin{bmatrix}
 	cos(\theta), sin(\theta) \\
 	-sin(\theta), cos(\theta)  
  \end{bmatrix}$$
+
 Multiplying a vector with this matrix using matrix multiplication yields
 $$v = (x, y) \\
 v \cdot RotZ(\theta) = (x cos(\theta) + y (-sin(\theta)), x sin(\theta), y cos(\theta))$$

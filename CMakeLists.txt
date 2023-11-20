@@ -12,7 +12,7 @@ endif()
 add_executable(${PROJECT_NAME} src/main.cpp src/Vector2.h src/Solver.h)
 
 #Copy data files to the binary directory
-file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY Data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 #Set the working directory to the project root (for Windows builds only)
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/")

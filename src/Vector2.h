@@ -4,9 +4,23 @@
 #include <cmath> 
 
 namespace Helpers{
+    const double PI = 3.14159265359; 
+
+    float DegToRad(float degrees) {
+        return degrees * (PI / 180.0); 
+    }
+
+    float RadToDeg(float radians) {
+        return radians * (180.0 / PI);
+    }
+
     struct Vector2{
         float x, y;
-        
+
+        Vector2 operator + (const Vector2& rhs){
+            return {x + rhs.x, y + rhs.y};
+        }
+
 
         Vector2 operator - (const Vector2& rhs){
             return {x - rhs.x, y - rhs.y};
@@ -16,10 +30,12 @@ namespace Helpers{
         static float Length(const Vector2& vec);
         static Vector2 Normalize(const Vector2& vec);
         static Vector2 Rotate(const Vector2& vec, const float angle);
+        static float ToDegrees(const Vector2& vec);
+        static float ToRadians(const Vector2& vec);
     };
 
     //Returns the Dot Product of two vectors. 
-    //This value gives the angle between two vectors, in radians. 
+    //This value gives the cosine of the angle between two vectors. 
     inline float Vector2::Dot(const Vector2& a, const Vector2& b){
         return (a.x * b.x) + (a.y * b.y); 
     }
@@ -35,11 +51,25 @@ namespace Helpers{
         return {vec.x / length, vec.y / length}; 
     } 
 
+    //Rotates a Vector clockwise
     inline Vector2 Vector2::Rotate(const Vector2& vec, const float angle) {
+        const float radians = DegToRad(angle);     //This matrix rotates anticlockwise, so negate the angle for a clockwise rotation.
         return{
-                cosf(angle) * vec.x - sinf(angle) * vec.y, 
-                sinf(angle) * vec.x + cosf(angle) * vec.y
-            };
+            (vec.x * cosf(radians)) + (vec.y * (sinf(radians))),
+            (vec.x * -sinf(radians)) + (vec.y * cosf(radians))   
+        };
+    }
+
+    //Converts a Vector2 to degrees. 
+    inline float Vector2::ToDegrees(const Vector2& vec)
+    {
+        return RadToDeg(atan2(vec.x, vec.y));
+    }
+
+    //Converts a Vector2 to radians. 
+    inline float Vector2::ToRadians(const Vector2& vec)
+    {
+        return atan2(vec.x, vec.y);
     }
 
 

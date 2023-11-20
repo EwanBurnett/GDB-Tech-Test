@@ -93,10 +93,10 @@ list<int> VisiblePoints(Entity e, float FoV, float distance){
 
 		//Compute the angle between the start of the FoV arc and the other entity.
 		toOther = Normalize(other.position - e.position);
-		fDotOther = Dot(arcStart, toOther);
+		aDotOther = Dot(arcStart, toOther);
 
 		//As long as the angle to the other entity is within our range, an intersection has occurred. 
-		if(fDotOther > 0.0 && fDotOther < DegToRad(FoV)){
+		if(Angle(toOther) <= Angle(arcStart) && aDotOther < DegToRad(FoV)){
 			intersections.push(other.ID);
 		}
 	}
@@ -169,5 +169,13 @@ All tests are run on the following dataset, found within TestData.csv
 |17|40|18|East|
 |28|26|19|South|
 |2|12|20|West|
+
+### Example
+- Entity ID: 1
+- FoV: $45^{\circ}$
+- Distance: 20.0
+
+Expected Result: 
+- Intersection with Entity ID == [2]
 
 

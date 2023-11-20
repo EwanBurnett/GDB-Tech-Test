@@ -26,15 +26,6 @@ namespace Helpers{
         EDirection direction; 
     };
 
-    const float PI = 3.14159265; 
-
-    float DegToRad(float degrees) {
-        return degrees * (PI / 180.0f); 
-    }
-
-    float RadToDeg(float radians) {
-        return radians * (180.0f / PI);
-    }
 
 
     /* Loads Entity Data from a CSV file. 
@@ -114,7 +105,8 @@ namespace Helpers{
            
             //If the other entity intersects with the bounding sphere centered on this entity, with radius = distance, continue. 
             Vector2 toPoint = pOther->position - entity.position; 
-            if(Vector2::Length(toPoint) > distance){
+            float distToPoint = Vector2::Length(toPoint);
+            if(distToPoint > distance){
                continue;    //The point lies outside of the sphere's radius. 
             }
             
@@ -141,22 +133,32 @@ namespace Helpers{
 
             //Cull points that are behind this one. 
             if (Vector2::Dot(direction, toOther) < 0.0) {
-                continue;   //The other point is behind this one.
+               //continue;   //The other point is behind this one.
             }
 
             //Rotate the Forwards Vector by -FoV / 2 radians. 
             const float FoVradians = DegToRad(FoVdegrees);
             const float halfFoVradians = DegToRad(FoVdegrees / 2.0f);
-            const Vector2 arcStart = Vector2::Rotate(direction, -(FoVdegrees / 2.0f)); //BUG: There seems to be an error in this rotation.
+            const Vector2 arcStart = Vector2::Rotate(direction, -(FoVdegrees / 2.0f)); 
             
             //The angle (radians) between the start of the arc and the other entity. 
-            float fDotOther = Vector2::Dot(arcStart, toOther);
-
+            float aDotOther = acosf(Vector2::Dot(arcStart, toOther)); //BUG: Is this being computed correctly?
+            
+            /*
+            float fDotOther = Vector2::Dot(direction, arcStart);
+        
+            float a = RadToDeg(acosf(aDotOther));
+            float d = Vector2::ToDegrees(toOther);  //NOTE: Since the dot product is a scalar value, negative angles are not reported, leading to bugs. Using this method instead to establish limits may be preferable. 
+            float f = RadToDeg(acosf(fDotOther));
+            */
+            float a = Vector2::ToRadians(arcStart);
+            float d = Vector2::ToRadians(toOther); 
+            
 
             //If the angle (in radians) between the forwards vector and the object is within bounds, then a collision has occurred. 
-            if(fDotOther > 0.0 && fDotOther <= FoVradians){
-                float af = Vector2::Dot(arcStart, direction);
-                printf("FoV %.4fdeg (%.4frad)\nIntersection with Entity [%d] -> [%d]\n\tForwards Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc Start Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc -> [%d]: (%.4f, %.4f) {%.4fdeg} {%.4frad}\n", FoVdegrees, DegToRad(FoVdegrees), entity.ID, pOther->ID, direction.x, direction.y, 0.0f, 0.0f, arcStart.x, arcStart.y, RadToDeg(af), af, pOther->ID, toOther.x, toOther.y, RadToDeg(fDotOther), fDotOther);
+            //if(aDotOther > 0.0f && aDotOther <= FoVradians) { //TODO: Amend this check
+            if(d >= a && aDotOther <= FoVradians){
+                printf("Range %f\nFoV %.4fdeg (%.4frad)\nIntersection with Entity [%d] -> [%d]\n\tForwards Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc Start Vector: (%f, %f) {%.4fdeg} {%.4frad}\n\tArc -> [%d]: (%.4f, %.4f) {%.4fdeg} {%.4frad}\n\tdistance: %f\n", distance, FoVdegrees, DegToRad(FoVdegrees), entity.ID, pOther->ID, direction.x, direction.y, Vector2::ToDegrees(direction), Vector2::ToRadians(direction), arcStart.x, arcStart.y, Vector2::ToDegrees(arcStart), Vector2::ToRadians(arcStart), pOther->ID, toOther.x, toOther.y, RadToDeg(aDotOther), aDotOther, distToPoint);
                 out.push_back(pOther->ID);
             }            
 

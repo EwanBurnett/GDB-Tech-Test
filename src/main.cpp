@@ -14,8 +14,8 @@ int main(){
 
         Entity* pStart = &*world.begin(); 
         Entity* pEnd = &*world.begin() + world.size(); 
-        float FoV = 60.0f; 
-        float distance = 10.0f;
+        float FoV = 45.0f; 
+        float distance = 20.0f;
         Entity& viewer = world[0]; 
         std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance); //TODO: Unit Tests
 

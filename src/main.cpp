@@ -1,3 +1,10 @@
+/* Games Development Bootcamp Technical Test
+ * Ewan Burnett - 2023
+ * Computes the intersection between a Circle Segment and a number of points,
+ * based on Field of View and distance. 
+ * The actual implementation of the function can be found within Solver.h
+ */
+
 #include <cstdio>
 #include <vector>
 #include "Vector2.h"
@@ -17,7 +24,7 @@ int main(){
         float FoV = 45.0f; 
         float distance = 20.0f;
         Entity& viewer = world[0]; 
-        std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance); //TODO: Unit Tests
+        std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance); 
 
         printf("Found %lu visible entities.\n", visible.size());
     }

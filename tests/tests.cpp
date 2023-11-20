@@ -158,17 +158,18 @@ TEST(Intersection, Visibility) {
     std::vector<Helpers::Entity> world;
     ASSERT_NO_THROW(world = Helpers::LoadEntityData("../Data/TestData.csv"));
     if (world.size() > 0) {
-        printf("Testing %lu entites.\n", world.size());
-
-
         Helpers::Entity* pStart = &*world.begin();
         Helpers::Entity* pEnd = &*world.begin() + world.size();
         float FoV = 45.0f;
         float distance = 20.0f;
         Helpers::Entity& viewer = world[0];
-        std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance);
-        ASSERT_EQ(visible.size(), 1);
-        ASSERT_EQ(visible[0], 2);
+        {
+            std::vector<uint32_t> visible = VisibleEntities(viewer, pStart, pEnd, FoV, distance);
+            ASSERT_EQ(visible.size(), 1);
+            ASSERT_EQ(visible[0], 2);
+        }
+
+
     }
     else {
         FAIL();
